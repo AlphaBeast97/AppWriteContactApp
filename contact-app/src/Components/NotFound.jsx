@@ -4,7 +4,6 @@ const NotFound = () => {
   return (
     <div className="flex justify-center items-center min-h-[700px] mt-3 px-2 py-3">
       <img
-        className="size-[20%]"
         src="./img/Hands Contact.png"
         alt="contact not found"
       />
