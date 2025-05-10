@@ -1,22 +1,78 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Search from "./Search";
 import AddContact from "./AddContact";
 import NotFound from "./NotFound";
 import ContactForm from "./ContactForm";
+import ContactCard from "./ContactCard";
+
+import { ListContacts, DeleteContact } from "../Config/appwrite";
 
 const Home = () => {
+  const [isCreateNewPressed, setIsCreateNewPressed] = useState(false);
+  const [AllContacts, setAllContacts] = useState([]);
+  
+  const [isEditPressed, setIsEditPressed] = useState(false);
+  const [isDeletePressed, setIsDeletePressed] = useState(false);
+  const [deleteContactId, setDeleteContactId] = useState(null);
+  
+  const [formBtn, setFormBtn] = useState('')
+
+  const GetContacts = async () => {
+    const Contacts = await ListContacts();
+    setAllContacts(Contacts);
+  };
+
+  useEffect(() => {
+    setFormBtn(isEditPressed ? "Update Contact" : "Add Contact");
+  }, [isEditPressed]);
+
+  useEffect(() => {
+    if (isDeletePressed && deleteContactId) {
+      const deleteContact = async () => {
+        try {
+          await DeleteContact(deleteContactId);
+          console.log("Contact deleted successfully");
+          GetContacts(); // Refresh the contact list after deletion
+        } catch (error) {
+          console.error("Error deleting contact:", error);
+          // Handle the error (e.g., show an error message to the user)
+        } finally {
+          setIsDeletePressed(false);
+          setDeleteContactId(null); // Reset deleteContactId
+        }
+      };
+      deleteContact();
+    }
+  }, [isDeletePressed, deleteContactId]);
+
+  useEffect(() => {
+    GetContacts();
+  }, []);
+
   return (
     <header className="border-white size-[100%]">
-      <div className="shadow-md shadow-amber-500 flex items-center justify-center gap-2 bg-white font-bold rounded-lg w-full h-fit mt-5 p-4 transition-all active:scale-[95%]">
+      <div className="shadow-md shadow-red-300 flex items-center justify-center gap-2 bg-white font-bold rounded-lg w-full h-fit mt-5 p-4 transition-all active:scale-[95%]">
         <img className="size-7" src="./img/logos_appwrite.svg" alt="" />
-        <p> Appwrite Contact App</p>
+        <p>Appwrite Contact App</p>
       </div>
       <div className="flex justify-between w-full mt-5">
         <Search />
-        <AddContact />
+        <AddContact setIsCreateNewPressed={setIsCreateNewPressed} />
       </div>
-      <NotFound />
-      <ContactForm />
+      {(isCreateNewPressed | isEditPressed) && <ContactForm formBtn={formBtn} setIsCreateNewPressed={setIsCreateNewPressed} setIsEditPressed={setIsEditPressed} />}
+      {AllContacts.length == 0 ? (
+        <NotFound />
+      ) : (
+          AllContacts.map((Contact) => {
+            <ContactCard
+            key={Contact.$id}
+            Contact={Contact}
+            setIsEditPressed={setIsEditPressed}
+            setIsDeletePressed={setIsDeletePressed}
+            setDeleteContactId={setDeleteContactId}
+            />
+          })
+      )}
     </header>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 
 const Search = () => {
   return (
-    <p className="flex items-center border-white border-1 rounded-lg px-2 w-[80%] transition-all focus-within:border-amber-400">
+    <p className="flex items-center border-white border-1 rounded-lg px-2 w-[80%] transition-all focus-within:border-red-400">
       <img
         className="size-8 mr-3"
         src="./img/material-symbols_search.png"

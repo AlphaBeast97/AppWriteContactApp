@@ -12,7 +12,7 @@ const database = new Databases(client);
 
 export const ListContacts = async () => {
   try {
-    const result = await document.listDocuments(DATABASE_ID, COLLECTION_ID, [
+    const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
       Query.limit(15),
     ]);
     return result.documents;
@@ -38,7 +38,7 @@ export const CreateContact = async (name, email) => {
   }
 };
 
-export const EditContact = async (contactID, name, email) => {
+export const UpdateContact = async (contactID, name, email) => {
   try {
     const response = await database.updateDocument(
       DATABASE_ID,
