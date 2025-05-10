@@ -60,9 +60,13 @@ const Home = () => {
 
   useEffect(() => {
     GetContacts();
-    setHeaderVisible(true); // Trigger header animation on mount
     setIsContactChanged(false);
   }, [isContactChanged]);
+  useEffect(() => {
+    GetContacts();
+    setHeaderVisible(true); // Trigger header animation on mount
+    setIsContactChanged(false);
+  }, []);
 
   const headerVariants = {
     initial: { opacity: 0, y: -20 },
@@ -93,7 +97,7 @@ const Home = () => {
         <p>Appwrite Contact App</p>
       </motion.div>
       <div className="flex justify-between w-full mt-5">
-        <Search />
+        <Search setAllContacts={setAllContacts} setIsContactChanged={setIsContactChanged} />
         <AddContact setIsCreateNewPressed={setIsCreateNewPressed} />
       </div>
 

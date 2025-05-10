@@ -67,3 +67,15 @@ export const DeleteContact = async (contactID) => {
     throw error;
   }
 };
+
+export const query = async (query) => {
+  try {
+    const result = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
+      Query.or([Query.search("name", query), Query.search("email", query)]),
+    ]);
+    return result.documents;
+  } catch (error) {
+    console.error(`No contact Found`, error);
+    throw error;
+  }
+};

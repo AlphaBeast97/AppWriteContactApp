@@ -1,9 +1,23 @@
 import React from "react";
+import { query } from "../Config/appwrite";
+import toast from "react-hot-toast";
 
-const Search = () => {
-  const handleQuery = (e) => {
+const Search = ({ setAllContacts, setIsContactChanged }) => {
+
+  const handleQuery = async (e) => {
     const Query = e.target.value;
-    console.log(Query);
+    if (Query === '') {
+      setIsContactChanged(true)
+    }
+    try {
+      const result = await query(Query);
+      setAllContacts(result)
+      if (result && result.length === 0 && Query.trim() !== "") {
+        toast.error("No Contact Found");
+      }
+    } catch (error) {
+      toast.error('Error Encountered During Search', error)
+    }
   };
 
   return (
