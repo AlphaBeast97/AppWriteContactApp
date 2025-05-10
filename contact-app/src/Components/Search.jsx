@@ -5,18 +5,24 @@ import toast from "react-hot-toast";
 const Search = ({ setAllContacts, setIsContactChanged }) => {
 
   const handleQuery = async (e) => {
-    const Query = e.target.value;
-    if (Query === '') {
-      setIsContactChanged(true)
+    const newQuery = e.target.value;
+    newQuery
+    if (newQuery.trim() === "") {
+      setAllContacts([])
+      setIsContactChanged(true);
+      return
     }
+
     try {
-      const result = await query(Query);
-      setAllContacts(result)
-      if (result && result.length === 0 && Query.trim() !== "") {
-        toast.error("No Contact Found");
+      const result = await query(newQuery);
+      setAllContacts(result);
+      if (result && result.length === 0 && newQuery.trim() !== "") {
+        toast.error("No Contact Found", {
+          id: 'notFound'
+        });
       }
     } catch (error) {
-      toast.error('Error Encountered During Search', error)
+      toast.error("Error Encountered During Search", error);
     }
   };
 

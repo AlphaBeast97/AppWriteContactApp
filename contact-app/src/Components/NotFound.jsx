@@ -2,7 +2,7 @@ import React from "react";
 
 const NotFound = () => {
   return (
-    <div className="flex justify-center items-center min-h-[700px] mt-3 px-2 py-3">
+    <div className="flex justify-center items-center mt-3 px-2 py-3">
       <img
         src="./img/Hands Contact.png"
         alt="contact not found"

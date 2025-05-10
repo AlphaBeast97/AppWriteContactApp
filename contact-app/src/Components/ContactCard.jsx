@@ -1,4 +1,17 @@
-import React from 'react'
+import React from "react";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
+
+const cardVariants = {
+  initial: { opacity: 0, y: 20, scale: 0.9 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: -20, scale: 0.9 },
+};
+
+const buttonVariants = {
+  hover: { scale: 1.1 },
+  tap: { scale: 0.9 },
+};
 
 const ContactCard = ({
   Contact,
@@ -16,7 +29,14 @@ const ContactCard = ({
   };
 
   return (
-    <div className="text-[12px] transition-all shadow-md shadow-gray-100 items-center px-1 py-2 bg-[#ffeaae] rounded-lg mt-5 flex">
+    <motion.div
+      className="text-[12px] transition-all shadow-md shadow-gray-100 items-center px-1 py-2 bg-[#ffeaae] rounded-lg mt-5 flex"
+      variants={cardVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      layout // This is important for smooth reordering during search/add/delete
+    >
       <div className="">
         <img src="./img/user.png" alt="user dp" />
       </div>
@@ -24,22 +44,28 @@ const ContactCard = ({
         <p>{Contact.name}</p>
         <p>{Contact.email}</p>
       </div>
-      <div className="absolute right-20">
-        <button
+      <div className="absolute right-20 flex gap-2">
+        <motion.button
           onClick={handleEdit}
           className="cursor-pointer active:scale-[95%]"
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="tap"
         >
-          <img src="./img/edit.png" alt="edit button" />
-        </button>
-        <button
+          <img src="./img/edit.png" alt="edit button" className="size-5" />
+        </motion.button>
+        <motion.button
           onClick={handleDelete}
           className="cursor-pointer active:scale-[95%]"
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="tap"
         >
-          <img src="./img/delete.png" alt="delete button" />
-        </button>
+          <img src="./img/delete.png" alt="delete button" className="size-5" />
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
-export default ContactCard
+export default ContactCard;

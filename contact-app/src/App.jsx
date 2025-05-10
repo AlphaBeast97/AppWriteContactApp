@@ -2,6 +2,7 @@ import React from "react";
 import Home from "./Components/Home";
 import { Toaster } from "react-hot-toast";
 import Footer from "./Components/Footer";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 
 const App = () => {
@@ -17,7 +18,9 @@ const App = () => {
       initial="initial"
       animate="animate"
     >
-      <Home />
+      <div className="flex-grow w-full flex flex-col items-center">
+        <Home />
+      </div>
       <Footer />
       <Toaster />
     </motion.main>

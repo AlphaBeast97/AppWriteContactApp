@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="absolute text-center text-[12px] border-t-1 bottom-0 p-4 text-white">
+    <footer className="fixed bottom-0 text-center text-[12px] border-t p-4 text-white">
       <div>
         Made By:{" "}
         <a
@@ -12,7 +12,7 @@ const Footer = () => {
           M. Saad Khan
         </a>
       </div>
-      <div className="flex gap-1">
+      <div className="flex justify-center gap-2 mt-1">
         Technologies:{" "}
         <a href="https://react.dev/">
           <img className="w-5" src="./img/react.png" alt="React" />{" "}

@@ -4,6 +4,7 @@ import AddContact from "./AddContact";
 import NotFound from "./NotFound";
 import ContactForm from "./ContactForm";
 import ContactCard from "./ContactCard";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion"; // Import motion
 
 import { ListContacts, DeleteContact } from "../Config/appwrite";
@@ -97,7 +98,10 @@ const Home = () => {
         <p>Appwrite Contact App</p>
       </motion.div>
       <div className="flex justify-between w-full mt-5">
-        <Search setAllContacts={setAllContacts} setIsContactChanged={setIsContactChanged} />
+        <Search
+          setAllContacts={setAllContacts}
+          setIsContactChanged={setIsContactChanged}
+        />
         <AddContact setIsCreateNewPressed={setIsCreateNewPressed} />
       </div>
 
@@ -115,6 +119,7 @@ const Home = () => {
         variants={contactsVariants}
         initial="initial"
         animate={contactsVisible ? "animate" : "initial"}
+        className="pb-28"
       >
         {AllContacts.length === 0 ? (
           <NotFound />
