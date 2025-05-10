@@ -16,15 +16,15 @@ const ContactCard = ({
   };
 
   return (
-    <div className="text-[12px] transition-all active:scale-[105%] active:shadow-lg shadow-gray-500 items-center px-1 py-2 bg-[#ffeaae] rounded-lg mt-5 flex">
+    <div className="text-[12px] transition-all shadow-md shadow-gray-100 items-center px-1 py-2 bg-[#ffeaae] rounded-lg mt-5 flex">
       <div className="">
         <img src="./img/user.png" alt="user dp" />
       </div>
-      <div className="w-[59%]">
+      <div className="ml-1 w-[59%]">
         <p>{Contact.name}</p>
         <p>{Contact.email}</p>
       </div>
-      <div className="">
+      <div className="absolute right-20">
         <button
           onClick={handleEdit}
           className="cursor-pointer active:scale-[95%]"

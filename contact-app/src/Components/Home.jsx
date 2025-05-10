@@ -6,6 +6,7 @@ import ContactForm from "./ContactForm";
 import ContactCard from "./ContactCard";
 
 import { ListContacts, DeleteContact } from "../Config/appwrite";
+import toast from "react-hot-toast";
 
 const Home = () => {
   const [isCreateNewPressed, setIsCreateNewPressed] = useState(false);
@@ -41,8 +42,10 @@ const Home = () => {
         try {
           await DeleteContact(deleteContactId);
           GetContacts(); // Refresh the contact list after deletion
+          toast.success("Contact Delete");
         } catch (error) {
           console.error("Error deleting contact:", error);
+          toast.error("Failed To Delete Contact");
           // Handle the error (e.g., show an error message to the user)
         } finally {
           setIsDeletePressed(false);
@@ -68,17 +71,17 @@ const Home = () => {
         <Search />
         <AddContact setIsCreateNewPressed={setIsCreateNewPressed} />
       </div>
-      
+
       {(isCreateNewPressed || isEditPressed) && (
         <ContactForm
-        formBtn={formBtn}
-        setIsCreateNewPressed={setIsCreateNewPressed}
-        setIsEditPressed={setIsEditPressed}
-        setIsContactChanged={setIsContactChanged}
-        editContactId={editContactId}
+          formBtn={formBtn}
+          setIsCreateNewPressed={setIsCreateNewPressed}
+          setIsEditPressed={setIsEditPressed}
+          setIsContactChanged={setIsContactChanged}
+          editContactId={editContactId}
+          setEditContactId={setEditContactId}
         />
       )}
-
       {AllContacts.length === 0 ? (
         <NotFound />
       ) : (

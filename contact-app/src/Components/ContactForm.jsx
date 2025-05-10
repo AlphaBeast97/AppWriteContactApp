@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import {
-  CreateContact,
-  UpdateContact,
-} from "../Config/appwrite.js";
+import { CreateContact, UpdateContact } from "../Config/appwrite.js";
+import { toast } from "react-hot-toast";
 
 const ContactForm = ({
   formBtn,
@@ -10,6 +8,7 @@ const ContactForm = ({
   setIsEditPressed,
   setIsContactChanged,
   editContactId,
+  setEditContactId
 }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -30,18 +29,33 @@ const ContactForm = ({
   };
 
   const handleSubmit = async () => {
+    if (name === '' || email === '') {
+      toast.error('Field Cannot Be Empty')
+      return
+    }
+
     try {
       if (editContactId) {
         await UpdateContact(editContactId, name, email);
+        toast.success("Contact Updated");
       } else {
-        await CreateContact(name, email);
+        try {
+          await CreateContact(name, email);
+          toast.success('New Contact Added')
+        } catch (error) {
+          toast.error('Failed To Create New Contact')
+          console.error(`Failed to create new contact ${error}`)
+        }
       }
 
+    } catch (error) {
+      toast.error("Failed to edit contact");
+      console.error("Error saving contact:", error);
+    } finally {
+      setEditContactId(null)
       setIsContactChanged(true); // Trigger list refresh in Home
       setIsEditPressed(false);
       setIsCreateNewPressed(false);
-    } catch (error) {
-      console.error("Error saving contact:", error);
     }
   };
 
@@ -52,7 +66,11 @@ const ContactForm = ({
           onClick={handleCancel}
           className="cursor-pointer transition-all active:scale-[95%]"
         >
-          <img className="size-10" src="./img/icons8-cancel.svg" alt="cancel button" />
+          <img
+            className="size-10"
+            src="./img/icons8-cancel.svg"
+            alt="cancel button"
+          />
         </button>
       </div>
       <div>

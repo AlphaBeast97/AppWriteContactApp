@@ -17,7 +17,8 @@ export const ListContacts = async () => {
     ]);
     return result.documents;
   } catch (error) {
-    console.log(`Failed to list contacts ${error}`);
+    console.error(`Failed to list contacts ${error}`);
+    throw error;
   }
 };
 
@@ -35,6 +36,7 @@ export const CreateContact = async (name, email) => {
     return response;
   } catch (error) {
     console.log(`failed to create new contact: ${error}`);
+    throw error;
   }
 };
 
@@ -52,15 +54,16 @@ export const UpdateContact = async (contactID, name, email) => {
     return response;
   } catch (error) {
     console.log(`Failed to edit contact ${error}`);
+    throw error;
   }
 };
 
 export const DeleteContact = async (contactID) => {
   try {
-      await database.deleteDocument(DATABASE_ID, COLLECTION_ID, contactID);
-      return true; // Indicate successful deletion
+    await database.deleteDocument(DATABASE_ID, COLLECTION_ID, contactID);
+    return true; // Indicate successful deletion
   } catch (error) {
-      console.error('Error deleting contact:', error);
-      throw error;
+    console.error("Error deleting contact:", error);
+    throw error;
   }
-}
+};
