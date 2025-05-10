@@ -58,7 +58,6 @@ export const UpdateContact = async (contactID, name, email) => {
 export const DeleteContact = async (contactID) => {
   try {
       await database.deleteDocument(DATABASE_ID, COLLECTION_ID, contactID);
-      console.log('Contact deleted successfully');
       return true; // Indicate successful deletion
   } catch (error) {
       console.error('Error deleting contact:', error);

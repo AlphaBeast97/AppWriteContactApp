@@ -10,16 +10,25 @@ import { ListContacts, DeleteContact } from "../Config/appwrite";
 const Home = () => {
   const [isCreateNewPressed, setIsCreateNewPressed] = useState(false);
   const [AllContacts, setAllContacts] = useState([]);
-  
+
   const [isEditPressed, setIsEditPressed] = useState(false);
+  const [editContactId, setEditContactId] = useState(null);
   const [isDeletePressed, setIsDeletePressed] = useState(false);
   const [deleteContactId, setDeleteContactId] = useState(null);
-  
-  const [formBtn, setFormBtn] = useState('')
+
+  const [isContactChanged, setIsContactChanged] = useState(false);
+
+  const [formBtn, setFormBtn] = useState("");
 
   const GetContacts = async () => {
     const Contacts = await ListContacts();
     setAllContacts(Contacts);
+  };
+
+  const handleEditContact = (id) => {
+    // Function to set edit mode
+    setIsEditPressed(true);
+    setEditContactId(id); // Store the contact's ID
   };
 
   useEffect(() => {
@@ -31,7 +40,6 @@ const Home = () => {
       const deleteContact = async () => {
         try {
           await DeleteContact(deleteContactId);
-          console.log("Contact deleted successfully");
           GetContacts(); // Refresh the contact list after deletion
         } catch (error) {
           console.error("Error deleting contact:", error);
@@ -47,7 +55,8 @@ const Home = () => {
 
   useEffect(() => {
     GetContacts();
-  }, []);
+    setIsContactChanged(false);
+  }, [isContactChanged]);
 
   return (
     <header className="border-white size-[100%]">
@@ -59,19 +68,31 @@ const Home = () => {
         <Search />
         <AddContact setIsCreateNewPressed={setIsCreateNewPressed} />
       </div>
-      {(isCreateNewPressed | isEditPressed) && <ContactForm formBtn={formBtn} setIsCreateNewPressed={setIsCreateNewPressed} setIsEditPressed={setIsEditPressed} />}
-      {AllContacts.length == 0 ? (
+      
+      {(isCreateNewPressed || isEditPressed) && (
+        <ContactForm
+        formBtn={formBtn}
+        setIsCreateNewPressed={setIsCreateNewPressed}
+        setIsEditPressed={setIsEditPressed}
+        setIsContactChanged={setIsContactChanged}
+        editContactId={editContactId}
+        />
+      )}
+
+      {AllContacts.length === 0 ? (
         <NotFound />
       ) : (
-          AllContacts.map((Contact) => {
+        AllContacts.map((Contact) => {
+          return (
             <ContactCard
-            key={Contact.$id}
-            Contact={Contact}
-            setIsEditPressed={setIsEditPressed}
-            setIsDeletePressed={setIsDeletePressed}
-            setDeleteContactId={setDeleteContactId}
+              key={Contact.$id}
+              Contact={Contact}
+              handleEditContact={handleEditContact}
+              setIsDeletePressed={setIsDeletePressed}
+              setDeleteContactId={setDeleteContactId}
             />
-          })
+          );
+        })
       )}
     </header>
   );

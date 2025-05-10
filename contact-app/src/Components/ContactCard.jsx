@@ -1,25 +1,28 @@
 import React from 'react'
 
-const ContactCard = ({ Contact, setIsEditPressed, setIsDeletePressed, setDeleteContactId }) => {
-
+const ContactCard = ({
+  Contact,
+  handleEditContact,
+  setIsDeletePressed,
+  setDeleteContactId,
+}) => {
   const handleEdit = () => {
-    setIsEditPressed(true);
-    console.log('edit')
-  }
+    handleEditContact(Contact.$id);
+  };
+
   const handleDelete = () => {
     setIsDeletePressed(true);
     setDeleteContactId(Contact.$id);
-    console.log('del')
-  }
+  };
 
   return (
-    <div className="text-[12px] items-center px-1 py-2 bg-[#ffeaae] rounded-lg mt-5 flex">
+    <div className="text-[12px] transition-all active:scale-[105%] active:shadow-lg shadow-gray-500 items-center px-1 py-2 bg-[#ffeaae] rounded-lg mt-5 flex">
       <div className="">
         <img src="./img/user.png" alt="user dp" />
       </div>
       <div className="w-[59%]">
-        <p>M. Saad Khan{ Contact.name }</p>
-        <p>ksaad5272@gmail.com{ Contact.email }</p>
+        <p>{Contact.name}</p>
+        <p>{Contact.email}</p>
       </div>
       <div className="">
         <button
@@ -37,6 +40,6 @@ const ContactCard = ({ Contact, setIsEditPressed, setIsDeletePressed, setDeleteC
       </div>
     </div>
   );
-}
+};
 
 export default ContactCard
