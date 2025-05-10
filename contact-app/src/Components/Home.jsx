@@ -4,6 +4,7 @@ import AddContact from "./AddContact";
 import NotFound from "./NotFound";
 import ContactForm from "./ContactForm";
 import ContactCard from "./ContactCard";
+import { motion } from "framer-motion"; // Import motion
 
 import { ListContacts, DeleteContact } from "../Config/appwrite";
 import toast from "react-hot-toast";
@@ -20,16 +21,18 @@ const Home = () => {
   const [isContactChanged, setIsContactChanged] = useState(false);
 
   const [formBtn, setFormBtn] = useState("");
+  const [headerVisible, setHeaderVisible] = useState(false);
+  const [contactsVisible, setContactsVisible] = useState(false);
 
   const GetContacts = async () => {
     const Contacts = await ListContacts();
     setAllContacts(Contacts);
+    setContactsVisible(true); // Trigger contact list animation after loading
   };
 
   const handleEditContact = (id) => {
-    // Function to set edit mode
     setIsEditPressed(true);
-    setEditContactId(id); // Store the contact's ID
+    setEditContactId(id);
   };
 
   useEffect(() => {
@@ -41,15 +44,14 @@ const Home = () => {
       const deleteContact = async () => {
         try {
           await DeleteContact(deleteContactId);
-          GetContacts(); // Refresh the contact list after deletion
+          GetContacts();
           toast.success("Contact Delete");
         } catch (error) {
           console.error("Error deleting contact:", error);
           toast.error("Failed To Delete Contact");
-          // Handle the error (e.g., show an error message to the user)
         } finally {
           setIsDeletePressed(false);
-          setDeleteContactId(null); // Reset deleteContactId
+          setDeleteContactId(null);
         }
       };
       deleteContact();
@@ -58,15 +60,38 @@ const Home = () => {
 
   useEffect(() => {
     GetContacts();
+    setHeaderVisible(true); // Trigger header animation on mount
     setIsContactChanged(false);
   }, [isContactChanged]);
 
+  const headerVariants = {
+    initial: { opacity: 0, y: -20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeInOut" },
+    },
+  };
+
+  const contactsVariants = {
+    initial: { opacity: 0 },
+    animate: {
+      opacity: 1,
+      transition: { duration: 0.5, delay: 0.3, ease: "easeInOut" },
+    },
+  };
+
   return (
-    <header className="border-white size-[100%]">
-      <div className="shadow-md shadow-red-300 flex items-center justify-center gap-2 bg-white font-bold rounded-lg w-full h-fit mt-5 p-4 transition-all active:scale-[95%]">
+    <motion.header
+      className="border-white size-[100%]"
+      variants={headerVariants}
+      initial="initial"
+      animate={headerVisible ? "animate" : "initial"}
+    >
+      <motion.div className="shadow-md shadow-red-300 flex items-center justify-center gap-2 bg-white font-bold rounded-lg w-full h-fit mt-5 p-4 transition-all active:scale-[95%]">
         <img className="size-7" src="./img/logos_appwrite.svg" alt="" />
         <p>Appwrite Contact App</p>
-      </div>
+      </motion.div>
       <div className="flex justify-between w-full mt-5">
         <Search />
         <AddContact setIsCreateNewPressed={setIsCreateNewPressed} />
@@ -82,11 +107,15 @@ const Home = () => {
           setEditContactId={setEditContactId}
         />
       )}
-      {AllContacts.length === 0 ? (
-        <NotFound />
-      ) : (
-        AllContacts.map((Contact) => {
-          return (
+      <motion.div
+        variants={contactsVariants}
+        initial="initial"
+        animate={contactsVisible ? "animate" : "initial"}
+      >
+        {AllContacts.length === 0 ? (
+          <NotFound />
+        ) : (
+          AllContacts.map((Contact) => (
             <ContactCard
               key={Contact.$id}
               Contact={Contact}
@@ -94,10 +123,10 @@ const Home = () => {
               setIsDeletePressed={setIsDeletePressed}
               setDeleteContactId={setDeleteContactId}
             />
-          );
-        })
-      )}
-    </header>
+          ))
+        )}
+      </motion.div>
+    </motion.header>
   );
 };
 
