@@ -13,7 +13,7 @@ const App = () => {
 
   return (
     <motion.main
-      className="flex flex-col items-center bg-[#323334] min-w-dvw min-h-dvh px-10"
+      className="flex flex-col items-center bg-[#323334] max-[400px] min-h-dvh px-10"
       variants={mainVariants}
       initial="initial"
       animate="animate"
