@@ -44,7 +44,7 @@ const ContactCard = ({
         <p>{Contact.name}</p>
         <p>{Contact.email}</p>
       </div>
-      <div className="absolute right-20 flex gap-2">
+      <div className="flex gap-2">
         <motion.button
           onClick={handleEdit}
           className="cursor-pointer active:scale-[95%]"

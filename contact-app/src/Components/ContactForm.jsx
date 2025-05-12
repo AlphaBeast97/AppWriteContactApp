@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CreateContact, UpdateContact } from "../Config/appwrite.js";
 import { toast } from "react-hot-toast";
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 
 const ContactForm = ({
@@ -33,9 +34,15 @@ const ContactForm = ({
     }, 300); // Match the exit animation duration
   };
 
+  const handleSubmitEnter = (e) => {
+    e.key === 'Enter' && handleSubmit();
+  }
+  
   const handleSubmit = async () => {
     if (name === "" || email === "") {
-      toast.error("Field Cannot Be Empty");
+      toast.error("Field Cannot Be Empty", {
+        id: 'key-press'
+      });
       return;
     }
 
@@ -119,8 +126,9 @@ const ContactForm = ({
                 id="name"
                 value={name}
                 onChange={handleNameChange}
+                onKeyDown={handleSubmitEnter}
                 placeholder="Enter Name"
-              />
+                />
             </div>
             <div>
               <label htmlFor="email">Email</label>
@@ -130,6 +138,7 @@ const ContactForm = ({
                 id="email"
                 value={email}
                 onChange={handleEmailChange}
+                onKeyDown={handleSubmitEnter}
                 placeholder="Enter Email"
               />
             </div>

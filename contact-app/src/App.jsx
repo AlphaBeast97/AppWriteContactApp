@@ -13,15 +13,19 @@ const App = () => {
 
   return (
     <motion.main
-      className="flex flex-col items-center bg-[#323334] max-[400px] min-h-dvh px-10"
+      className="flex justify-center items-center bg-[#323334] border-amber-500 border-2  px-10"
       variants={mainVariants}
       initial="initial"
       animate="animate"
     >
-      <div className="flex-grow w-full flex flex-col items-center">
-        <Home />
+      <div className="flex flex-col items-center max-w-[500px] min-h-dvh">
+        <div className="">
+          <Home />
+        </div>
+        <div className="absolute bottom-0">
+          <Footer />
+        </div>
       </div>
-      <Footer />
       <Toaster />
     </motion.main>
   );
