@@ -22,9 +22,6 @@ const App = () => {
         <div className="">
           <Home />
         </div>
-        <div className="absolute bottom-0">
-          <Footer />
-        </div>
       </div>
       <Toaster />
     </motion.main>

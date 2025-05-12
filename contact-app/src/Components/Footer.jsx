@@ -12,7 +12,7 @@ const Footer = () => {
           M. Saad Khan
         </a>
       </div>
-      <div className="flex justify-center gap-2 mt-1">
+      <div className="flex justify-center flex-wrap gap-2 mt-1">
         Technologies:{" "}
         <a href="https://react.dev/">
           <img className="w-5" src="./img/react.png" alt="React" />{" "}

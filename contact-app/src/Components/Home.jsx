@@ -9,6 +9,7 @@ import { motion } from "framer-motion"; // Import motion
 
 import { ListContacts, DeleteContact } from "../Config/appwrite";
 import toast from "react-hot-toast";
+import Footer from "./Footer";
 
 const Home = () => {
   const [isCreateNewPressed, setIsCreateNewPressed] = useState(false);
@@ -63,6 +64,7 @@ const Home = () => {
     GetContacts();
     setIsContactChanged(false);
   }, [isContactChanged]);
+
   useEffect(() => {
     GetContacts();
     setHeaderVisible(true); // Trigger header animation on mount
@@ -87,7 +89,7 @@ const Home = () => {
   };
 
   return (
-    <motion.header
+    <motion.div
       className="border-white size-[100%]"
       variants={headerVariants}
       initial="initial"
@@ -135,7 +137,10 @@ const Home = () => {
           ))
         )}
       </motion.div>
-    </motion.header>
+      <div className='bottom-0 left-0 right-0'>
+        <Footer />
+      </div>
+    </motion.div>
   );
 };
 
